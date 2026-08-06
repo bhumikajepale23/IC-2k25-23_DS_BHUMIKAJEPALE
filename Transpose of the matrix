@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int row , column;
+    
+    cout << "Enter number of rows: ";
+    cin >> row;
+    
+    cout << "Enter mumber of columns:";
+    cin >> column;
+    
+    int a[row][column];
+    cout << "Enter matrix elements:\n";
+    
+    for(int i=0; i<row; i++){
+        for(int j=0; j<column; j++){
+            cin >> a[i][j];
+        }
+    }
+    cout << "Tha transpose of matrix:\n";
+    for(int i=0; i<column; i++){
+        for(int j=0; j<row; j++){
+            cout << a[j][i] << " ";
+        }
+        cout << endl ;
+    }
+    return 0;
+}
