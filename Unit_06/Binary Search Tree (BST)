@@ -1,0 +1,136 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* createNode(int value) {
+    Node* node = new Node();
+
+    node->data = value;
+    node->left = node->right = NULL;
+
+    return node;
+}
+
+Node* insert(Node* root, int value) {
+    if (root == NULL)
+        return createNode(value);
+
+    if (value < root->data)
+        root->left = insert(root->left, value);
+    else if (value > root->data)
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+bool search(Node* root, int key) {
+    if (root == NULL)
+        return false;
+
+    if (root->data == key)
+        return true;
+
+    if (key < root->data)
+        return search(root->left, key);
+
+    return search(root->right, key);
+}
+
+Node* findMin(Node* root) {
+    while (root != NULL && root->left != NULL)
+        root = root->left;
+
+    return root;
+}
+
+Node* deleteNode(Node* root, int key) {
+    if (root == NULL)
+        return root;
+
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+
+    else {
+        if (root->left == NULL) {
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        }
+
+        if (root->right == NULL) {
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        Node* temp = findMin(root->right);
+
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+
+    return root;
+}
+
+void inorder(Node* root) {
+    if (root == NULL) return;
+
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+int main() {
+    Node* root = NULL;
+
+    int n, value, key;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> value;
+        root = insert(root, value);
+    }
+
+    cout << "BST Inorder: ";
+    inorder(root);
+
+    cout << "\nEnter element to search: ";
+    cin >> key;
+
+    if (search(root, key))
+        cout << "Element found!";
+    else
+        cout << "Element not found!";
+
+    cout << "\nEnter element to delete: ";
+    cin >> key;
+
+    root = deleteNode(root, key);
+
+    cout << "After deletion: ";
+    inorder(root);
+
+    Node* minimum = findMin(root);
+
+    if (minimum != NULL) {
+        cout << "\nMinimum: " << minimum->data;
+
+        Node* maximum = root;
+        while (maximum->right != NULL)
+            maximum = maximum->right;
+
+        cout << "\nMaximum: " << maximum->data;
+    }
+
+    return 0;
+}
