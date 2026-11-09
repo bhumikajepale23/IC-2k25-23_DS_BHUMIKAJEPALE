@@ -1,0 +1,127 @@
+#include <iostream>
+using namespace std;
+
+#define SIZE 5
+
+int dq[SIZE];
+int front = -1, rear = -1;
+
+bool isFull() {
+    return (rear + 1) % SIZE == front;
+}
+
+bool isEmpty() {
+    return front == -1;
+}
+
+void insertFront(int value) {
+    if (isFull()) {
+        cout << "Deque is full!";
+        return;
+    }
+
+    if (isEmpty())
+        front = rear = 0;
+    else
+        front = (front - 1 + SIZE) % SIZE;
+
+    dq[front] = value;
+}
+
+void insertRear(int value) {
+    if (isFull()) {
+        cout << "Deque is full!";
+        return;
+    }
+
+    if (isEmpty())
+        front = rear = 0;
+    else
+        rear = (rear + 1) % SIZE;
+
+    dq[rear] = value;
+}
+
+void deleteFront() {
+    if (isEmpty()) {
+        cout << "Deque is empty!";
+        return;
+    }
+
+    cout << "Deleted: " << dq[front];
+
+    if (front == rear)
+        front = rear = -1;
+    else
+        front = (front + 1) % SIZE;
+}
+
+void deleteRear() {
+    if (isEmpty()) {
+        cout << "Deque is empty!";
+        return;
+    }
+
+    cout << "Deleted: " << dq[rear];
+
+    if (front == rear)
+        front = rear = -1;
+    else
+        rear = (rear - 1 + SIZE) % SIZE;
+}
+
+void display() {
+    if (isEmpty()) {
+        cout << "Deque is empty!";
+        return;
+    }
+
+    int i = front;
+
+    while (true) {
+        cout << dq[i] << " ";
+
+        if (i == rear) break;
+
+        i = (i + 1) % SIZE;
+    }
+}
+
+int main() {
+    int choice, value;
+
+    do {
+        cout << "\n1. Insert Front\n2. Insert Rear";
+        cout << "\n3. Delete Front\n4. Delete Rear";
+        cout << "\n5. Display\n0. Exit";
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cin >> value;
+                insertFront(value);
+                break;
+
+            case 2:
+                cin >> value;
+                insertRear(value);
+                break;
+
+            case 3:
+                deleteFront();
+                break;
+
+            case 4:
+                deleteRear();
+                break;
+
+            case 5:
+                display();
+                break;
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
