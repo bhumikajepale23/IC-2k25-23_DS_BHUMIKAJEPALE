@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n, edges;
+
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    if (n <= 0 || n > 100) {
+        cout << "Invalid number of vertices!";
+        return 0;
+    }
+
+    vector<vector<int>> graph(n);
+
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    cout << "Enter edges (u v):\n";
+
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        if (u >= 0 && u < n && v >= 0 && v < n) {
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+    }
+
+    cout << "\nAdjacency List:\n";
+
+    for (int i = 0; i < n; i++) {
+        cout << i << " -> ";
+
+        for (int v : graph[i])
+            cout << v << " ";
+
+        cout << endl;
+    }
+
+    return 0;
+}
