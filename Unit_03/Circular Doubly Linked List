@@ -1,0 +1,133 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+Node* head = NULL;
+
+void insert(int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+
+    if (head == NULL) {
+        head = newNode;
+        newNode->next = head;
+        newNode->prev = head;
+    }
+    else {
+        Node* last = head->prev;
+
+        newNode->next = head;
+        newNode->prev = last;
+
+        last->next = newNode;
+        head->prev = newNode;
+    }
+}
+
+void displayForward() {
+    if (head == NULL) {
+        cout << "List is empty!";
+        return;
+    }
+
+    Node* temp = head;
+
+    do {
+        cout << temp->data << " <-> ";
+        temp = temp->next;
+    } while (temp != head);
+
+    cout << "(Back to Head)\n";
+}
+
+void displayBackward() {
+    if (head == NULL) {
+        cout << "List is empty!";
+        return;
+    }
+
+    Node* temp = head->prev;
+
+    do {
+        cout << temp->data << " <-> ";
+        temp = temp->prev;
+    } while (temp != head->prev);
+
+    cout << "(Back to Last)\n";
+}
+
+void deleteNode(int value) {
+    if (head == NULL) {
+        cout << "List is empty!";
+        return;
+    }
+
+    Node* temp = head;
+
+    do {
+        if (temp->data == value) {
+            if (temp->next == temp) {
+                head = NULL;
+            }
+            else {
+                temp->prev->next = temp->next;
+                temp->next->prev = temp->prev;
+
+                if (temp == head)
+                    head = temp->next;
+            }
+
+            delete temp;
+            return;
+        }
+
+        temp = temp->next;
+
+    } while (temp != head);
+
+    cout << "Element not found!";
+}
+
+int main() {
+    int choice, value;
+
+    do {
+        cout << "\n1. Insert";
+        cout << "\n2. Delete";
+        cout << "\n3. Display Forward";
+        cout << "\n4. Display Backward";
+        cout << "\n0. Exit";
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value: ";
+                cin >> value;
+                insert(value);
+                break;
+
+            case 2:
+                cout << "Enter value: ";
+                cin >> value;
+                deleteNode(value);
+                break;
+
+            case 3:
+                displayForward();
+                break;
+
+            case 4:
+                displayBackward();
+                break;
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
