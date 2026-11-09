@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+#define SIZE 100
+
+int stackArr[SIZE];
+int top = -1;
+
+void push(int value) {
+    if (top == SIZE - 1) {
+        cout << "Stack Overflow!\n";
+        return;
+    }
+
+    stackArr[++top] = value;
+    cout << "Element inserted!\n";
+}
+
+void pop() {
+    if (top == -1) {
+        cout << "Stack Underflow!\n";
+        return;
+    }
+
+    cout << "Deleted element: " << stackArr[top--] << endl;
+}
+
+void peek() {
+    if (top == -1)
+        cout << "Stack is empty!";
+    else
+        cout << "Top element: " << stackArr[top];
+}
+
+void display() {
+    if (top == -1) {
+        cout << "Stack is empty!";
+        return;
+    }
+
+    for (int i = top; i >= 0; i--)
+        cout << stackArr[i] << endl;
+}
+
+int main() {
+    int choice, value;
+
+    do {
+        cout << "\n1. Push\n2. Pop\n3. Peek\n4. Display\n0. Exit";
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value: ";
+                cin >> value;
+                push(value);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                peek();
+                break;
+
+            case 4:
+                display();
+                break;
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
