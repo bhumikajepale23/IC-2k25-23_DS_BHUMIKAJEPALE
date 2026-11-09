@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+struct Item {
+    int data;
+    int priority;
+};
+
+Item q[100];
+int n = 0;
+
+void insert(int value, int p) {
+    if (n == 100) {
+        cout << "Queue is full!";
+        return;
+    }
+
+    q[n++] = {value, p};
+}
+
+void deleteHighestPriority() {
+    if (n == 0) {
+        cout << "Queue is empty!";
+        return;
+    }
+
+    int best = 0;
+
+    for (int i = 1; i < n; i++) {
+        if (q[i].priority < q[best].priority)
+            best = i;
+    }
+
+    cout << "Deleted: " << q[best].data << endl;
+
+    for (int i = best; i < n - 1; i++)
+        q[i] = q[i + 1];
+
+    n--;
+}
+
+void display() {
+    for (int i = 0; i < n; i++)
+        cout << q[i].data << " Priority: "
+             << q[i].priority << endl;
+}
+
+int main() {
+    int choice, value, p;
+
+    do {
+        cout << "\n1. Insert\n2. Delete\n3. Display\n0. Exit";
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value and priority: ";
+                cin >> value >> p;
+                insert(value, p);
+                break;
+
+            case 2:
+                deleteHighestPriority();
+                break;
+
+            case 3:
+                display();
+                break;
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
