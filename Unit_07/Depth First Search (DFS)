@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<vector<int>> graph;
+vector<bool> visited;
+
+void DFS(int vertex) {
+    visited[vertex] = true;
+
+    cout << vertex << " ";
+
+    for (int v : graph[vertex]) {
+        if (!visited[v])
+            DFS(v);
+    }
+}
+
+int main() {
+    int n, edges;
+
+    cout << "Enter number of vertices: ";
+    cin >> n;
+
+    if (n <= 0 || n > 100) {
+        cout << "Invalid number of vertices!";
+        return 0;
+    }
+
+    graph.resize(n);
+    visited.resize(n, false);
+
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        if (u >= 0 && u < n && v >= 0 && v < n) {
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+    }
+
+    int start;
+
+    cout << "Enter starting vertex: ";
+    cin >> start;
+
+    if (start < 0 || start >= n) {
+        cout << "Invalid starting vertex!";
+        return 0;
+    }
+
+    cout << "DFS Traversal: ";
+    DFS(start);
+
+    return 0;
+}
